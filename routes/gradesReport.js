@@ -71,6 +71,45 @@ router.get('/generate', function(req, res){
         res.redirect('/gradesReport?hasMsg=true')
 })
 
+router.get('/test', function(req, res){
+    console.log(req.query)
+    let averageHomework = []
+    HW.find({"courseName" : req.query.course}).then(function(homeworks) {
+        return homeworks
+    }).then(function(allHomework) {
+        // console.log('allHomework')
+       
+        let homeworks = []
+
+        for(let i = 0 ; i < allHomework.length ; i++) 
+            homeworks.push(allHomework[i]._id)
+        
+        GradesDB.find({"homework_uuid" : homeworks}).then(function(grades){
+            console.log(grades)
+            let total = 0
+            for(let i = 0 ; i < grades.length ; i++) {
+                total += parseInt(grades[i].homeworkGrade)
+                console.log('total')
+                console.log(total)
+
+                averageHomework.push(total/grades.length)
+                total = 0
+            }
+            return averageHomework
+        }).then(function() {
+            
+            console.log('result')
+            console.log(averageHomework)
+        //    res.render('googleChartTest',{title: req.query.course, result: allHomework, chartInfos: averageHomework})
+           res.render('chartjsTest',{title: req.query.course, result: allHomework, chartInfos: averageHomework})
+           
+        })
+    // }).then(function() {
+    //     console.log('result')
+    //     console.log(averageHomework)
+    })
+})
+
 function valueExists(homeworkCollections, value){
     if(homeworkCollections.length == 0) {
             return false        

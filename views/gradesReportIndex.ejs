@@ -42,12 +42,18 @@
                   <% } %>
             </select> 
           </td>
+
+          <td>
+            <a  href="/gradesReport/test?course=<%= result[i].courseName %>" id="test" style="text-decoration:none;" ><button class="btn btn-danger center-block">enter <%= result[i].courseName %></button></a>
+      
+          </td>
         </tr>
       <% } %>
         </tbody>
       </table> <br>
       <a  href="/gradesReport/generate?noSelect=true" id="SubmitBtn" style="text-decoration:none;" required><button class="btn btn-danger center-block">Genetrate Report</button></a>
-</div>
+      
+  </div>
 
 <script>
 function myFunction(sel) {
@@ -55,11 +61,13 @@ function myFunction(sel) {
   let rows = document.getElementById('myTable')
                      .getElementsByTagName('tbody')[0]
                      .getElementsByTagName('tr').length
+  
   for(let i=0; i<rows;i++){
     if(document.getElementsByTagName('select')[i].getAttribute('id')!=sel.id)
        document.getElementById("selectedHomework"+i).value="0"
   }
   document.getElementById("SubmitBtn").href = '/gradesReport/generate?'+changeValue;
+  
 }
 
 

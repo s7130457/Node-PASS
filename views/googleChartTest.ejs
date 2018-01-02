@@ -1,0 +1,88 @@
+
+<html>
+    <% include header.ejs %>
+  <head>
+  
+    <div id = "<%= title %> report" style="text-align:center;">
+  　  <div style="margin:0 auto;font-size: 30px;"><strong><h1><%= title %> grades report</h1></strong></div>
+    </div>
+
+    <meta charset="UTF-8">
+   <link rel='stylesheet' href='/stylesheets/table.css' />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <div style="width: 60%; float:left">
+    <div style="margin-right:100px; margin-top:100px">
+
+    <table class="t1" >
+     <thead>
+        <tr>
+            <th>Homework Number</th>
+            <th>Homework Name</th>
+            <th>Average</th>
+          
+        </tr>
+      </thead>
+        <tfoot>
+    <tr><th colspan="2"></th></tr>
+    </tfoot>
+
+    <tbody>
+           <%  for(let i=0; i < result.length; i++) { %>
+        <tr>
+            <th>#<%= i+1 %></th>
+            <th><%= result[i].homeworkName %></th>
+            <th><%= chartInfos[i] %></th>
+        </tr>
+        
+          <%  }  %>
+    <!-- <tr><th>Average</th><td></td><td><font color="#FF0000"><%= result.average  %></front></td></tr> -->
+    </tbody>
+    </table>
+     </div>
+    </div>
+    <script type="text/javascript">
+      google.charts.load('current', {packages: ['corechart', 'line']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'X');
+        data.addColumn('number', 'average');
+        let chartInfo = []
+        chartInfo.push(<%= chartInfos %>)
+        let element = []
+
+        
+        for(let i = 0 ; i < <%= result.length %>; i++) 
+            element.push([i+1, chartInfo[i]])
+
+        for (let i = 0; i < element.length; i++)
+            data.addRow( element[i]);   
+
+        var options = {
+            hAxis: {
+                title: 'Homework Number',
+                gridlines: {count: element.length}
+            },
+            vAxis: {
+                title: 'Average'
+            },
+            
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('linechart'));
+        chart.draw(data, options);
+      }    
+    </script>
+  </head>
+
+  <div style="width: 40%; float:right">
+  <body>
+    <div id="linechart" style="width: 540px; height: 500px;  margin-right: 0px"></div>
+  </body>
+ </div>
+
+
+
+
+</html>

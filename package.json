@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "prestart": "pm2 delete PASS && start mongod",
-    "start": "pm2 start ./bin/PASS",
+    "prestart": " start mongod",
+    "start": "node ./bin/PASS",
     "api-test": "nyc --reporter=cobertura mocha test/api/*.js",
     "initdb": "start mongod  && mongo hwgo --eval db.dropDatabase() && mongoimport -d hwgo -c coursescollections dataSeed/courseSeed.json && mongoimport  -d hwgo -c studentcollections dataSeed/studentSeed.json",
     "stop": "pm2 stop PASS"
@@ -12,6 +12,7 @@
   "dependencies": {
     "body-parser": "~1.17.1",
     "chai": "^4.1.2",
+    "chart.js": "^2.7.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
